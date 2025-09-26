@@ -1,0 +1,246 @@
+:PROPERTIES:
+:ID:       2c8312a3-c92a-40c8-8889-bc017ef08086
+:ROAM_ALIASES: Capacitance
+:END:
+:LATEX:
+#+STARTUP: latexpreview
+:END:
+#+title: RPS 1: Review Exercise and Programming Session 1
+
+
+* Ex 1: Analysis, Design and Implementation of Search Algorithms
+
+Consider the three algorithms in the PDF:
+- [[https://www.geeksforgeeks.org/dsa/linear-search/][L-Search]]
+- [[https://www.geeksforgeeks.org/dsa/binary-search/][B-Search]]
+- 4-Search
+
+** (a) Complete the following table about the characteristics, design framework and implementation form of algorithms - L-SEARCH, B-SEARCH and 4-SEARCH.
+| Algorithm | Correct | Efficient           | Effective    | Definite | Finite | Implementation | Design Approach |
+| L-SEARCH  | NO      | \(O(1)\)            | YES          | YES      | YES    | YES            | Brute           |
+| B-SEARCH  | NO      | \(O(\log _{2}(n))\) | NO(Div by 0) | YES      | YES    | YES            | D & C           |
+| 4-SEARCH  | YES     | \(O(\log _{4}(n))\) | YES          | YES      | YES    | YES            | D & C           |
+
+** (b) Based on your answer from (a) above, determine which of the algorithms need to be modified and correct it such that it returns the correct output for all valid input.
+#+begin_src shell
+fn l_search(A,n,v){
+    for i = 0 to n - 1 {
+        if A[i] == v {
+                return i;
+            }
+    }
+    return NotFound;
+}
+#+end_src
+
+#+begin_src shell
+fn b_search(A,n,v){
+    left = 0;
+    right = n - 1;
+    while l <= r {
+        mid = (left + right) / 2;
+        if A[mid] == v {
+                return m;
+        }
+        if A[mid] < v {
+                left = mid + 1;
+        } else {
+                right = mid - 1;
+        }
+    }
+    return NotFound;
+}
+#+end_src
+
+#+begin_src shell
+fn 4_search(A,left,right,v){
+   if left > right {
+           return NotFound;
+   }
+   mid1 = ceil(l + (r - l)/4);
+   if A[mid1] == v {
+           return mid1;
+       }
+   mid2 = ceil(l + 2 * (r - l)/4);
+   if A[mid2] == v {
+           return mid2;
+       }
+   mid3 = ceil(l + 3 * (r - l)/4);
+   if A[mid3] == v {
+           return mid3;
+       }
+    if v < A[mid1] {
+            return 4_search(A,l,mid1-1,v);
+        }
+    if v < A[mid2] {
+            return 4_search(A,mid1+1,mid2-1,v);
+        }
+    if v < A[mid3] {
+            return 4_search(A,mid2+1,right,v);
+        }
+}
+#+end_src
+** (c) Find an expression for the running time of each of the algorithms as a function of the input size, n. Hint: If the algorithm is iterative, use statement-wise cost analysis, otherwise write the recurrence relation.
+
+*** l-search is iterative.
+The first line is a for loop. It is checked the length of the input array plus 1. \(c(n+1)\)
+The next line is a check inside of a for loop. It is check as many times as the length of the array \(c(n)\).
+ return i and return Notfound can only run ones. \(1\).
+ \[T(n) = c_{1} (n+1) + c_{2} n + 1\]
+ Big O is linear.
+ \[ O(T(n)) = O(n)\]
+*** b-search
+b-search is divide and conquer. This means that it can by analyzed with the master methode.
+\[T(n) = a T(n/b)+f(n)\]
+In each iterative the problem is split in 2 branches and one of the branches are keeped.
+There is no compine step.
+\[ a = 1 \qquad  b = 2 \qquad f(n) = 1 \]
+
+\[T(n) = T(n/2)+1\]
+
+Then there are the three cases:
+- if \(f(n) = O( n ^{\log _{b} a - \epsilon})\) for \(\epsilon> 0\) then \(T(n) = \Theta (n ^{\log _{b} a} )\)
+- if \(f(n) = \Theta( n ^{\log _{b} a} \log^{k}(n))\) for \(k \ge 0\) then \(T(n) = \Theta (n ^{\log _{b} a}  \log^{k+1} n)\)
+- if \(f(n) = \Omega( n ^{\log _{b} a + \epsilon})\) for \(\epsilon> 0\) then \(T(n) = \Theta (f(n))\)
+
+  b-search is case 2
+  \(\log _{2}(1) = 0\)
+  \(\log^{0}=1\)
+  \(n ^{\log _{2} 1} \log^{0}(n) = 1\)
+
+  \[ T(n) = \Theta ( \log (n) ) \]
+*** 4-search
+The same as binary search
+
+* Exercise 2: Analysis, Design and Implementation of Sorting Algorithms
+Consider the following algorithm that sorts an integer array, A. The algorithm uses the proce-
+dure MERGE to merge four subarrays in sorted order. Procedure MERGE combines the four
+subarrays in pairs. It first merges A1 with A2 and A3 with A4 . The results are then merged to
+obtain the final sorted array. The MERGE procedure has a complexity of O(n).
+#+begin_src shell :results none :exports code
+procedure Q-mergesort(A)
+    n = length(A)
+    if n == 1 then
+        return A
+    end if
+    q1 = ⌊n/4⌋
+    q2 = ⌊n/2⌋
+    q3 = ⌊3n/4⌋
+    A1 = A[1 : q1 ]
+    A2 = A[q1 + 1 : q2]
+    A3 = A[q2 + 1 : q3]
+    A4 = A[q3 + 1 : n]
+    A1 = Q-MERGESORT(A1)
+    A2 = Q-MERGESORT(A2)
+    A3 = Q-MERGESORT(A3)
+    A4 = Q-MERGESORT(A4)
+    return MERGE(A1 , A2 , A3 , A4)
+end procedure
+#+end_src
+** The Problem with this algorithm
+This algorithm cannot handle arrays that have a length not dividable by 4.
+
+Take an array with length 3
+if A = [3,4,6]
+then
+q1 = 1
+q2 = 2
+q2 = 3
+A1 = [1 : 1] = [3]
+A2 = [2 : 2] = [4]
+A3 = [3 : 3] = [6]
+A3 = [4 : 3] = Out of bounce
+
+If  the algorithm is made to be index 0.
+#+begin_src shell :results none :exports code
+procedure Q-mergesort(A)
+   n = length(A)
+   if n == 1 then
+       return A
+   end if
+   q1 = ⌊n/4⌋
+   q2 = ⌊n/2⌋
+   q3 = ⌊3n/4⌋
+   A1 = A[0 : q1 - 1]
+   A2 = A[q1 : q2 - 1]
+   A3 = A[q2 : q3 - 1]
+   A4 = A[q3 : n - 1]
+   A1 = Q-MERGESORT(A1)
+   A2 = Q-MERGESORT(A2)
+   A3 = Q-MERGESORT(A3)
+   A4 = Q-MERGESORT(A4)
+   return MERGE(A1 , A2 , A3 , A4)
+end procedure
+#+end_src
+
+if A = [3,4,6]
+then
+q1 = 0
+q2 = 1
+q2 = 2
+A1 = [0 : 0] = [3]
+A2 = [0 : 0] = [3]
+A3 = [1: 1] = [4]
+A3 = [2 : 2] = [6]
+This duplicates index 0
+
+Both of the algorithms cannot handle these results.
+Fixes
+- The algorithm needs to handle empty array [].
+- The algorithm must not duplicate elements.
+- If a subarray points to part of the array, no other subarray can point to the same part of the array (mutually exclusive)
+
+
+#+begin_src shell :results none :exports code
+fn Q-mergesort(A, left, right) {
+   length = right - left + 1;
+   # test for empty array and length 1
+   if length <= 1 {
+       return break;
+   }
+
+   # find quaters
+   q1 = ⌊left + 1 * (length) / 4⌋
+   q2 = ⌊left + 2 * (length) / 4⌋
+   q3 = ⌊left + 3 * (length) / 4⌋
+
+   # quick sort inplace
+   Q-MERGESORT(A, left, q1-1 )
+   Q-MERGESORT(A, q1, q2 -1)
+   Q-MERGESORT(A, q2, q3 - 1)
+   Q-MERGESORT(A, q3, right)
+
+   # Sort four of less elements inplace
+   # Choose a sorting algorithm (any)
+   insertion_sort(A, left, right);
+}
+
+fn instertion_sort(A, left, right) {
+    i ← left + 1
+    while i <= right
+        j ← i
+        while j > left and A[j-1] > A[j]
+            swap A[j] and A[j-1]
+            j ← j - 1
+        end while
+        i ← i + 1
+    end while
+}
+#+end_src
+
+This should sort an array inplace
+
+** (a) Which of the following statements about algorithm Q-MERGESORT is(are) true? There
+may be multiple correct statements. Tick all that apply.
+A. Q-MERGESORT uses the divide-and-conquer principle and its implementation
+is recursive.
+B. Q-MERGESORT uses the divide-and-conquer principle and its implementation
+is iterative.
+C. Q-MERGESORT uses the greedy technique and its implementation is recur-
+sive.
+D. Q-MERGESORT uses brute-force technique and its implementation is itera-
+tive.
+E. Q-MERGESORT uses brute-force technique and its implementation is itera-
+tive.
+** (b) Illustrate the operation of Q-MERGESORT algorithm with the following input:
+A = [8, 4, 6, 9, 2, 7, 1, 5, 14, 11, 15, 3, 12, 13, 10, 16]

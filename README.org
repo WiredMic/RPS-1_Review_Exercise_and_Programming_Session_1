@@ -1,0 +1,74 @@
+#+title: RPS 1: Review Exercise and Programming Session 1
+#+author: Rasmus Enevoldsen
+
+* How to run the binaries
+
+** Search Algorithm Comparison
+
+The searching binary can find a specific target value in the randomly generated list.
+The four algorithms that are compared are
+- Linear Search
+- Binary Search
+- Quaternary Search
+- Rust inbuilt Search
+
+#+begin_src shell :export both :results output
+cargo run --release --bin search_algo_comparision -- -t 102
+# cargo run --release --bin sort_algo_comparision
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Running 100 iterations with array length 10000000 with a target of 102
+
+First three element in usort list [96, 38, 26]
+Last three element in usort list [48, 88, 62]
+List sorted
+First three element in sort list [1, 1, 1]
+Last three element in sort list [100, 100, 100]
+
+Linear Search returned error: The target could not be found
+Linear search ran 100 times with length of 10000000. avg is 6171769 ns
+
+Binary Search returned error: The target could not be found
+Binary search ran 100 times with length of 10000000. avg is 57 ns
+
+Quaternary Search returned error: The target could not be found
+Quaternary Search ran 100 times with length of 10000000. avg is 49 ns
+
+Rust B finished with err
+Inbuild Rust b ran 100 times with length of 10000000. avg is 64 ns
+#+end_example
+
+** Sort Algorithm Comparison
+
+The Three algorithms that are compared are
+- Merge Search
+- Quaternary Search
+- Rust inbuilt Sort
+
+#+begin_src shell :export both :results output
+cargo run --release --bin sort_algo_comparision
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Running 100 iterations with array length 1e7
+
+First and last three element in unsort list [13, 28, 28], [88, 27, 51]
+
+Sorting with merge sort function
+List sorted in 1047 ms
+First and last three element in sort list [1, 1, 1], [100, 100, 100]
+
+Sorting with quaternary merge sort function
+List sorted in 980 ms
+First and last three element in sort list [1, 1, 1], [100, 100, 100]
+
+Sorting with inbuild Rust function
+List sorted in 75 ms
+First and last three element in sort list [1, 1, 1], [100, 100, 100]
+#+end_example
+
+
+
