@@ -5,6 +5,14 @@ use rand::Rng;
 use sorting_algorithims::search::{binary_search, linear_search, quaternary_search};
 use std::time::SystemTime;
 
+const GROUP_ALIAS: &'static str = "ES-25-ESD-3-120";
+
+// Algotrithm names
+const LINEAR_SEARCH: &'static str = "Linear Search";
+const BINARY_SEARCH: &'static str = "Binary Search";
+const QUATERNARY_SEARCH: &'static str = "Quaternaty Search";
+const RUST_SEARCH: &'static str = "Inbuilt Rust Search";
+
 const LENGTH: usize = 10_u64.pow(7) as usize;
 const RUNS: usize = 100;
 
@@ -57,7 +65,7 @@ fn main() {
         linear_res = linear_search(&list, &args.target_num);
         elapsed += now.elapsed().unwrap().as_nanos();
     }
-    let elapsed = elapsed as usize / RUNS;
+    let l_done = elapsed as usize / RUNS;
     match linear_res {
         Ok(res) => {
             println!(
@@ -71,7 +79,7 @@ fn main() {
     }
     println!(
         "Linear search ran {} times with length of {}. avg is {} ns\n",
-        RUNS, LENGTH, elapsed
+        RUNS, LENGTH, l_done
     );
 
     // binary search
@@ -82,7 +90,7 @@ fn main() {
         binary_res = binary_search(&list, &args.target_num);
         elapsed += now.elapsed().unwrap().as_nanos();
     }
-    let elapsed = elapsed as usize / RUNS;
+    let b_done = elapsed as usize / RUNS;
     match binary_res {
         Ok(res) => {
             println!(
@@ -96,7 +104,7 @@ fn main() {
     }
     println!(
         "Binary search ran {} times with length of {}. avg is {} ns\n",
-        RUNS, LENGTH, elapsed
+        RUNS, LENGTH, b_done
     );
 
     // quaternary search
@@ -107,7 +115,7 @@ fn main() {
         quaternary_res = quaternary_search(&list, 0, list.len() - 1, &args.target_num);
         elapsed += now.elapsed().unwrap().as_nanos();
     }
-    let elapsed = elapsed as usize / RUNS;
+    let q_done = elapsed as usize / RUNS;
     match quaternary_res {
         Ok(res) => {
             println!(
@@ -122,7 +130,7 @@ fn main() {
 
     println!(
         "Quaternary Search ran {} times with length of {}. avg is {} ns\n",
-        RUNS, LENGTH, elapsed
+        RUNS, LENGTH, q_done
     );
 
     // inbuild rust search
@@ -142,9 +150,26 @@ fn main() {
             }
         }
     }
-    let elapsed = elapsed as usize / RUNS;
+    let rust_done = elapsed as usize / RUNS;
     println!(
         "Inbuild Rust b ran {} times with length of {}. avg is {} ns",
-        RUNS, LENGTH, elapsed
+        RUNS, LENGTH, rust_done
+    );
+
+    println!(
+        "[{}] - {} - {:e} - {} ms.",
+        GROUP_ALIAS, LINEAR_SEARCH, LENGTH, l_done
+    );
+    println!(
+        "[{}] - {} - {:e} - {} ms.",
+        GROUP_ALIAS, BINARY_SEARCH, LENGTH, b_done
+    );
+    println!(
+        "[{}] - {} - {:e} - {} ms.",
+        GROUP_ALIAS, QUATERNARY_SEARCH, LENGTH, q_done
+    );
+    println!(
+        "[{}] - {} - {:e} - {} ms.",
+        GROUP_ALIAS, RUST_SEARCH, LENGTH, rust_done
     );
 }

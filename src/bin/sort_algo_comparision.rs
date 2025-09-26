@@ -3,12 +3,24 @@
 #![allow(unused_mut)]
 #![allow(unused_variables)]
 
+// Please post the running time of the implemented algorithms using the following format:
+// [Group alias/ID] - Algorithm - Input Size - Running Time.
+// Example:
+// [RAD] - L-SEARCH- 10^8 - 0.006 seconds
+
+const GROUP_ALIAS: &'static str = "ES-25-ESD-3-120";
+
+// Algotrithm names
+const MERGE_SORT: &'static str = "Merge Sort";
+const Q_SORT: &'static str = "Quaternaty Merge Sort";
+const RUST_SORT: &'static str = "Inbuilt Rust Sort";
+
 use clap::Parser;
 use rand::Rng;
 use sorting_algorithims::sort::{merge_sort, q_merge_sort};
 use std::time::SystemTime;
 
-const LENGTH: usize = 10_u64.pow(7) as usize;
+const LENGTH: usize = 10_u64.pow(8) as usize;
 const RUNS: usize = 100;
 
 fn main() {
@@ -40,9 +52,9 @@ fn main() {
     let length = unsort_2.len();
     let now = SystemTime::now();
     merge_sort(&mut unsort_1, 0, length - 1);
-    let done = now.elapsed().unwrap().as_millis();
+    let merge_done = now.elapsed().unwrap().as_millis();
 
-    println!("List sorted in {} ms", done);
+    println!("List sorted in {} ms", merge_done);
     println!(
         "First and last three element in sort list {:?}, {:?}\n",
         unsort_1.first_chunk::<3>().unwrap(),
@@ -55,9 +67,9 @@ fn main() {
     let length = unsort_2.len();
     let now = SystemTime::now();
     q_merge_sort(&mut unsort_2, 0, length - 1);
-    let done = now.elapsed().unwrap().as_millis();
+    let q_merge_done = now.elapsed().unwrap().as_millis();
 
-    println!("List sorted in {} ms", done);
+    println!("List sorted in {} ms", q_merge_done);
     println!(
         "First and last three element in sort list {:?}, {:?}\n",
         unsort_2.first_chunk::<3>().unwrap(),
@@ -69,12 +81,25 @@ fn main() {
 
     let now = SystemTime::now();
     unsort_3.sort();
-    let done = now.elapsed().unwrap().as_millis();
+    let rust_done = now.elapsed().unwrap().as_millis();
 
-    println!("List sorted in {} ms", done);
+    println!("List sorted in {} ms", rust_done);
     println!(
         "First and last three element in sort list {:?}, {:?}",
         unsort_3.first_chunk::<3>().unwrap(),
         unsort_3.last_chunk::<3>().unwrap()
+    );
+
+    println!(
+        "[{}] - {} - {:e} - {} ms.",
+        GROUP_ALIAS, MERGE_SORT, LENGTH, merge_done
+    );
+    println!(
+        "[{}] - {} - {:e} - {} ms.",
+        GROUP_ALIAS, Q_SORT, LENGTH, q_merge_done
+    );
+    println!(
+        "[{}] - {} - {:e} - {} ms.",
+        GROUP_ALIAS, RUST_SORT, LENGTH, rust_done
     );
 }
