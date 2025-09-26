@@ -14,7 +14,6 @@ The four algorithms that are compared are
 
 #+begin_src shell :export both :results output
 cargo run --release --bin search_algo_comparision -- -t 102
-# cargo run --release --bin sort_algo_comparision
 #+end_src
 
 #+RESULTS:
