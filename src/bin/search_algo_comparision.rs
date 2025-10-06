@@ -157,19 +157,19 @@ fn main() {
     );
 
     println!(
-        "[{}] - {} - {:e} - {} ms.",
+        "[{}] - {} - {:e} - {} ns.",
         GROUP_ALIAS, LINEAR_SEARCH, LENGTH, l_done
     );
     println!(
-        "[{}] - {} - {:e} - {} ms.",
+        "[{}] - {} - {:e} - {} ns.",
         GROUP_ALIAS, BINARY_SEARCH, LENGTH, b_done
     );
     println!(
-        "[{}] - {} - {:e} - {} ms.",
+        "[{}] - {} - {:e} - {} ns.",
         GROUP_ALIAS, QUATERNARY_SEARCH, LENGTH, q_done
     );
     println!(
-        "[{}] - {} - {:e} - {} ms.",
+        "[{}] - {} - {:e} - {} ns.",
         GROUP_ALIAS, RUST_SEARCH, LENGTH, rust_done
     );
 }
